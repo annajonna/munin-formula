@@ -5,11 +5,11 @@ include:
 
 # Enable common plugins
 {% for plugin, linked_file in pillar.get('munin_node_common_plugins', {}).items() %}
-/etc/munin/plugins/{{ plugin }}:
+{{ munin_node.plugin_dir }}/{{ plugin }}:
   file.symlink:
     - target: {{ munin_node.plugin_dir}}/{{ linked_file }}
-    - user: root
-    - group: root
+    - user: {{ munin_node.file_user }}
+    - group: {{ munin_node.file_group }}
     - mode: 755
 {% endfor %}
 
@@ -17,11 +17,11 @@ include:
 {% for hostname, plugin in salt['pillar.get']('munin_node_specific_plugins', {}).items() %}
 {% if salt['pillar.get']('munin_node:host_name') == hostname %}
 {% for plugin_name, linked_file in plugin.items() %}
-/etc/munin/plugins/{{ plugin_name }}:
+{{ munin_node.plugin_dir }}/{{ plugin_name }}:
   file.symlink:
     - target: {{ munin_node.plugin_dir}}/{{ linked_file }}
-    - user: root
-    - group: root
+    - user: {{ munin_node.file_user }}
+    - group: {{ munin_node.file_group }}
     - mode: 755
 {% endfor %}
 {% endif %}
@@ -30,4 +30,4 @@ include:
 {{ munin_node.service }}:
   service.running:
     - watch:
-      - file: /etc/munin/plugins/*
+      - file: {{ munin_node.plugin_dir }}/*

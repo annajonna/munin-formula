@@ -8,8 +8,8 @@ munin_node_config:
     - name: {{ munin_node.config }}
     - source: {{ munin_node.config_src }}
     - template: jinja
-    - user: root
-    - group: root
+    - user: {{ munin_node.file_user }}
+    - group: {{ munin_node.file_group }}
     - mode: 644
     - watch_in:
       - service: munin_node
