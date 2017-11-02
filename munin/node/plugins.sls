@@ -7,7 +7,7 @@ include:
 {% for plugin, linked_file in pillar.get('munin_node_common_plugins', {}).items() %}
 {{ munin_node.plugin_dir }}/{{ plugin }}:
   file.symlink:
-    - target: {{ munin_node.plugin_dir}}/{{ linked_file }}
+    - target: {{ munin_node.plugin_target_dir}}/{{ linked_file }}
     - user: {{ munin_node.file_user }}
     - group: {{ munin_node.file_group }}
     - mode: 755
@@ -19,7 +19,7 @@ include:
 {% for plugin_name, linked_file in plugin.items() %}
 {{ munin_node.plugin_dir }}/{{ plugin_name }}:
   file.symlink:
-    - target: {{ munin_node.plugin_dir}}/{{ linked_file }}
+    - target: {{ munin_node.plugin_target_dir}}/{{ linked_file }}
     - user: {{ munin_node.file_user }}
     - group: {{ munin_node.file_group }}
     - mode: 755
