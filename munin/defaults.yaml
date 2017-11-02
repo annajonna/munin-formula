@@ -1,4 +1,0 @@
-munin:
-  file_user: root
-  file_group: root
-

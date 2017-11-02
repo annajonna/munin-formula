@@ -1,21 +1,24 @@
-{## Start with  defaults from defaults.sls ##}
-{% import_yaml 'munin/defaults.yaml' as default_settings %}
-
-{% set munin_master_settings = salt['grains.filter_by']({
+{% set munin_master = salt['grains.filter_by']({
     'Debian': {
         'package': 'munin',
         'config': '/etc/munin/munin.conf',
         'config_src': 'salt://munin/files/munin.conf',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'RedHat': {
         'package': 'munin',
         'config': '/etc/munin/munin.conf',
         'config_src': 'salt://munin/files/munin.conf',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'Suse': {
         'package': 'munin',
         'config': '/etc/munin/munin.conf',
         'config_src': 'salt://munin/files/munin.conf',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'Arch': {
         'package': 'munin',
@@ -23,31 +26,34 @@
         'config_src': 'salt://munin/files/munin.conf',
         'cron_service': '/etc/systemd/system/munin-cron.service',
         'cron_timer': '/etc/systemd/system/munin-cron.timer',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'Gentoo': {
         'package': 'net-analyzer/munin',
         'config': '/etc/munin/munin.conf',
         'config_src': 'salt://munin/files/munin.conf',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'FreeBSD': {
         'package': 'munin-master',
         'config': '/usr/local/etc/munin/munin.conf',
         'config_src': 'salt://munin/files/munin.conf',
+        'file_user': 'root',
         'file_group': 'wheel',
     },
 }, merge=salt['pillar.get']('munin:lookup:master')) %}
 
-{% set munin_master = default_settings.copy() %}
-{% munin_master.update(munin_master_settings %}
-
-
-{% set munin_node_settings = salt['grains.filter_by']({
+{% set munin_node = salt['grains.filter_by']({
     'Debian': {
         'package': 'munin-node',
         'service': 'munin-node',
         'config': '/etc/munin/munin-node.conf',
         'config_src': 'salt://munin/files/munin-node.conf',
         'plugin_dir': '/usr/share/munin/plugins',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'RedHat': {
         'package': 'munin-node',
@@ -55,6 +61,8 @@
         'config': '/etc/munin/munin-node.conf',
         'config_src': 'salt://munin/files/munin-node.conf',
         'plugin_dir': '/usr/share/munin/plugins',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'Suse': {
         'package': 'munin-node',
@@ -62,6 +70,8 @@
         'config': '/etc/munin/munin-node.conf',
         'config_src': 'salt://munin/files/munin-node.conf',
         'plugin_dir': '/usr/share/munin/plugins',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'Arch': {
         'package': 'munin-node',
@@ -69,6 +79,8 @@
         'config': '/etc/munin/munin-node.conf',
         'config_src': 'salt://munin/files/munin-node.conf',
         'plugin_dir': '/usr/lib/munin/plugins',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'Gentoo': {
         'package': 'net-analyzer/munin',
@@ -76,6 +88,8 @@
         'config': '/etc/munin/munin-node.conf',
         'config_src': 'salt://munin/files/munin-node.conf',
         'plugin_dir': '/usr/libexec/munin/plugins',
+        'file_user': 'root',
+        'file_group': 'root',
     },
     'FreeBSD': {
         'package': 'munin-node',
@@ -83,15 +97,12 @@
         'config': '/usr/local/etc/munin/munin-node.conf',
         'config_src': 'salt://munin/files/munin-node.conf',
         'plugin_dir': '/usr/local/etc/munin/plugins',
+        'file_user': 'root',
         'file_group': 'wheel',
     },
 }, merge=salt['pillar.get']('munin:lookup:node')) %}
 
-{% set munin_node = default_settings.copy() %}
-{% munin_node.update(munin_node_settings %}
-
-
-{% set net_ssleay_settings = salt['grains.filter_by']({
+{% set net_ssleay = salt['grains.filter_by']({
     'Debian': {
         'package': 'libnet-ssleay-perl',
     },
@@ -106,11 +117,7 @@
     },
 }, merge=salt['pillar.get']('net_ssleay:lookup')) %}
 
-{% set munin_ssleay = default_settings.copy() %}
-{% munin_ssleay.update(munin_ssleay_settings %}
-
-
-{% set munin_tls_settings = salt['grains.filter_by']({
+{% set munin_tls = salt['grains.filter_by']({
     'Debian': {
         'private_key': '/etc/munin/tls/key.pem',
         'certificate': '/etc/munin/tls/crt.pem',
@@ -132,7 +139,4 @@
         'ca_certificate': '/usr/local/etc/munin/tls/cacert.pem',
     },
 }, merge=salt['pillar.get']('munin:lookup:tls')) %}
-
-{% set munin_tls = default_settings.copy() %}
-{% munin_tls.update(munin_tls_settings %}
 
