@@ -1,0 +1,5 @@
+[apache_*]
+       env.url   http://localhost:%d/server-status?auto
+       env.ports 80 443 8008 8443
+       env.showfree 1
+

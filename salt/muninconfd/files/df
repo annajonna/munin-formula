@@ -1,0 +1,2 @@
+[df*]
+env.exclude none unknown binfmt_misc debugfs devtmpfs fuse.gvfs-fuse-daemon iso9660 ramfs romfs rpc_pipefs squashfs tmpfs udf
