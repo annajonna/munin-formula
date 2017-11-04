@@ -1,5 +1,8 @@
 #################### 
 #
+include:
+   - munin.node
+
 #muninconfd-SKRA: # State ID
 #  file.managed:
 #    - name: /etc/munin/plugin-conf.d/SKRA
