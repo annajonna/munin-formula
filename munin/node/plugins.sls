@@ -31,3 +31,4 @@ include:
   service.running:
     - watch:
       - file: {{ munin_node.plugin_dir }}/*
+      - file: /etc/munin/plugin-conf.d/*
